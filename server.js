@@ -156,6 +156,16 @@ app.use(passport.initialize());
 
 console.log("Frontend URL:", process.env.FRONTEND_URL);
 
+app.use("/api", async (req, res, next) => {
+  try {
+    await connectToDb();
+    next();
+  } catch (error) {
+    console.error("API database connection failed:", error.message);
+    res.status(503).json({ message: "Database unavailable" });
+  }
+});
+
 // --- Routes ---
 app.use("/api/auth", authRoutes);
 app.use("/api/product-actions", productActionsRoutes);

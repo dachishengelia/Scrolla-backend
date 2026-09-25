@@ -4,6 +4,10 @@ dotenv.config()
 
 export default async function connectToDb () {
     try{
+        if (mongoose.connection.readyState === 1) {
+            return
+        }
+
         const mongoUri = process.env.MONGO_URI_PROD || process.env.MONGO_URI;
         if (!mongoUri) {
             throw new Error('MONGO_URI or MONGO_URI_PROD environment variable is not set');
