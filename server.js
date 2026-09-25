@@ -187,7 +187,7 @@ app.use("/api/settings", settingsRoutes);
 app.get("/", (req, res) => {
   res.send(`
     <div style="background-color: white; color: black; height: 100vh; display: flex; justify-content: center; align-items: center; font-size: 30px; font-weight: bold;">
-      Backend is working.
+      Backend is running.
     </div>
   `);
 });
