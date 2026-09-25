@@ -25,6 +25,7 @@ router.get("/check-username/:username", async (req, res) => {
   }
   
   try {
+    await connectToDatabase();
     const existingUser = await User.findOne({ username: username.toLowerCase() });
     
     if (existingUser) {
