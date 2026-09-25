@@ -5,6 +5,7 @@ import passport from "passport";
 import User from "../models/User.js";
 import connectToDatabase from "../db/connectToDB.js";
 import isAuth from "../middlewares/isAuth.middleware.js";
+import { upload } from "../config/cloudinary.config.js";
 
 // IMPORTANT: this initializes the Google strategy
 import "../strategies/google.strategy.js";
@@ -63,7 +64,7 @@ function sendTokenCookie(res, user) {
 /* ===========================
    REGISTER
 =========================== */
-router.post("/register", async (req, res) => {
+router.post("/register", upload.single("avatar"), async (req, res) => {
   const { username, email, password, role, displayName, bio } = req.body;
   
   console.log("[REGISTER] Request received");
@@ -95,6 +96,9 @@ router.post("/register", async (req, res) => {
       email,
       password: hashedPassword,
       role: role || "buyer",
+      displayName,
+      bio,
+      avatar: req.file?.path,
     });
 
     const token = sendTokenCookie(res, user);
