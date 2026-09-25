@@ -196,6 +196,8 @@ const PORT = process.env.PORT || 3001;
 
 let server;
 
+export default app;
+
 const startServer = async () => {
   try {
     await connectToDb();
@@ -215,8 +217,10 @@ const startServer = async () => {
   }
 };
 
-// Start the server
-startServer();
+// Vercel provides the app as a serverless function; local development owns the listener.
+if (!process.env.VERCEL) {
+  startServer();
+}
 
 // Graceful shutdown handling
 const gracefulShutdown = (signal) => {
